@@ -4,79 +4,234 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mac不打烊 - 海外 Mac mini 云租赁比价与托管 | Claude Code / Codex 常开环境</title>
-<meta name="description" content="聚合多家海外 Mac mini 云租赁：实时比价、自动备份、故障 30 分钟切换。一家付款，中文客服，保证能用。">
+<meta name="description" content="聚合多家海外 Mac mini 云租赁：实时比价、自动备份、故障 30 分钟切换。一家付款，中文客服，保证机器能用。">
 <style>
-  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;margin:0;color:#111;background:#fafafa;line-height:1.65}
-  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 64px}
-  h1{font-size:32px;line-height:1.3;margin:24px 0 8px}
-  h2{font-size:22px;margin:40px 0 12px}
-  .sub{color:#555;font-size:17px}
-  .cta{display:inline-block;background:#111;color:#fff;padding:12px 22px;border-radius:10px;text-decoration:none;margin:16px 8px 0 0}
-  .cta.alt{background:#fff;color:#111;border:1px solid #111}
-  table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
-  th,td{border:1px solid #e3e3e3;padding:9px 10px;text-align:left;vertical-align:top}
-  th{background:#f0f0f0}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-  .card{background:#fff;border:1px solid #e3e3e3;border-radius:12px;padding:18px}
-  .price{font-size:26px;font-weight:700}
-  .hot{border:2px solid #111}
-  .tag{display:inline-block;background:#111;color:#fff;font-size:12px;padding:2px 8px;border-radius:20px;margin-bottom:8px}
-  .note{color:#666;font-size:13px}
-  ul{padding-left:20px}
+  :root{
+    --bg:#070b16; --bg2:#0b1020; --panel:#111830; --panel2:#151d3a;
+    --line:#232c4e; --txt:#eef1f8; --mut:#9aa5bf; --gold:#ffd166; --gold2:#ff9f43;
+    --green:#43d17c; --red:#ff8585; --radius:16px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--txt);line-height:1.7;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(7,11,22,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+  .logo .dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(145deg,#2a3560,#141c38);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px}
+  .logo em{font-style:normal;color:var(--gold)}
+  .nav-links{display:flex;gap:26px;font-size:14px;color:var(--mut)}
+  .nav-links a{text-decoration:none}
+  .nav-links a:hover{color:var(--txt)}
+  .nav-cta{background:var(--gold);color:#191204;font-weight:700;padding:8px 18px;border-radius:99px;text-decoration:none;font-size:14px}
+  @media(max-width:640px){.nav-links{display:none}}
+  /* hero */
+  .hero{position:relative;padding:84px 0 64px;text-align:center;overflow:hidden}
+  .hero:before{content:"";position:absolute;inset:0;background:radial-gradient(620px 320px at 50% -60px,rgba(255,209,102,.16),transparent 70%),radial-gradient(900px 500px at 85% 110%,rgba(64,93,230,.14),transparent 60%);pointer-events:none}
+  .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:6px 14px;font-size:13px;color:var(--mut)}
+  .pill b{color:var(--red);font-weight:600}
+  .pill .live{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(67,209,124,.18)}
+  h1{font-size:clamp(30px,5.4vw,50px);line-height:1.25;font-weight:800;letter-spacing:.5px;margin:26px auto 18px;max-width:820px}
+  h1 .hl{background:linear-gradient(92deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.sub{color:var(--mut);font-size:clamp(15px,2vw,18px);max-width:680px;margin:0 auto 34px}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;padding:14px 30px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .15s ease}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#191204;box-shadow:0 10px 30px rgba(255,170,60,.28)}
+  .btn-ghost{border:1px solid var(--line);background:var(--panel);color:var(--txt)}
+  .hero-note{margin-top:16px;font-size:13px;color:var(--mut)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:52px auto 0;max-width:820px}
+  .stat{background:rgba(17,24,48,.75);border:1px solid var(--line);border-radius:var(--radius);padding:16px 10px}
+  .stat .n{font-size:24px;font-weight:800;color:var(--gold)}
+  .stat .t{font-size:13px;color:var(--mut);margin-top:2px}
+  /* sections */
+  section{padding:64px 0 8px}
+  .kicker{text-align:center;color:var(--gold);font-size:13px;font-weight:700;letter-spacing:3px;margin-bottom:10px}
+  h2{font-size:clamp(23px,3.6vw,32px);text-align:center;font-weight:800;margin-bottom:12px}
+  .sec-sub{text-align:center;color:var(--mut);max-width:640px;margin:0 auto 36px;font-size:15px}
+  /* pain */
+  .pain{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .pain .p{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .pain .p h3{font-size:16px;margin-bottom:8px}
+  .pain .p h3 span{color:var(--red);margin-right:8px}
+  .pain .p p{color:var(--mut);font-size:14px}
+  .pain .p .fix{color:var(--green);font-size:14px;margin-top:10px;display:block}
+  /* table */
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:720px}
+  th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--mut);font-weight:600;font-size:13px;background:var(--panel2)}
+  tr:last-child td{border-bottom:none}
+  td.price{font-weight:700;color:var(--gold);white-space:nowrap}
+  .warn{color:var(--red)}
+  .ok{color:var(--green)}
+  .tbl-note{color:var(--mut);font-size:13px;margin-top:12px;text-align:center}
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .step{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px}
+  .step .ico{width:44px;height:44px;border-radius:12px;background:rgba(255,209,102,.12);display:flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:14px}
+  .step h3{font-size:17px;margin-bottom:8px}
+  .step p{color:var(--mut);font-size:14px}
+  /* pricing */
+  .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;align-items:stretch}
+  .plan{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:30px 26px;display:flex;flex-direction:column}
+  .plan.hot{background:linear-gradient(170deg,#1b2347,#121a36);border:1.5px solid var(--gold);position:relative;box-shadow:0 18px 50px rgba(255,180,60,.12)}
+  .plan .badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,var(--gold),var(--gold2));color:#191204;font-size:12px;font-weight:800;padding:4px 14px;border-radius:99px;white-space:nowrap}
+  .plan .name{font-size:15px;color:var(--mut);font-weight:600}
+  .plan .amount{font-size:38px;font-weight:800;margin:10px 0 2px}
+  .plan .amount small{font-size:14px;color:var(--mut);font-weight:500}
+  .plan .desc{color:var(--mut);font-size:13px;margin-bottom:18px}
+  .plan ul{list-style:none;margin-bottom:24px}
+  .plan li{padding:7px 0;font-size:14px;color:#cfd7ea;border-bottom:1px dashed #232c4e}
+  .plan li:last-child{border-bottom:none}
+  .plan li:before{content:"✓";color:var(--green);font-weight:700;margin-right:9px}
+  .plan .pbtn{margin-top:auto;text-align:center;padding:12px;border-radius:11px;text-decoration:none;font-weight:700;font-size:15px;border:1px solid var(--line);color:var(--txt)}
+  .plan.hot .pbtn{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#191204}
+  .fineprint{color:var(--mut);font-size:13px;text-align:center;max-width:720px;margin:22px auto 0}
+  /* faq */
+  .faq{max-width:760px;margin:0 auto}
+  details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;padding:0 20px}
+  summary{cursor:pointer;font-weight:600;font-size:15px;padding:16px 0;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  details p{color:var(--mut);font-size:14px;padding:0 0 18px}
+  /* final cta */
+  .final{margin:72px 0 30px;background:linear-gradient(150deg,#1a2148,#0d1330);border:1px solid var(--line);border-radius:24px;padding:52px 28px;text-align:center;position:relative;overflow:hidden}
+  .final:before{content:"";position:absolute;inset:0;background:radial-gradient(500px 240px at 50% -40px,rgba(255,209,102,.18),transparent 70%)}
+  .final h2{margin-bottom:10px;position:relative}
+  .final p{color:var(--mut);max-width:560px;margin:0 auto 28px;position:relative;font-size:15px}
+  .final .btn{position:relative}
+  footer{border-top:1px solid var(--line);margin-top:56px;padding:28px 0 90px;color:var(--mut);font-size:13px;text-align:center}
+  .sticky-cta{display:none}
+  @media(max-width:640px){
+    .sticky-cta{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:60;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#191204;font-weight:800;align-items:center;justify-content:center;padding:14px;border-radius:14px;text-decoration:none;box-shadow:0 12px 32px rgba(0,0,0,.5);font-size:16px}
+    .hero{padding-top:56px}
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <p class="note">Mac不打烊 - 价格数据更新于 2026-10-20，每日巡检更新</p>
-  <h1>Mac不打烊：给 Claude Code / Codex 一台不会睡、不会挂的海外 Mac mini</h1>
-  <p class="sub">我们聚合多家海外 Mac mini 云租赁，帮你比价选最优、自动备份、故障自动切换。你只对我们一家付款，中文客服，保证能用 - 不用再一家家试错。</p>
-  <a class="cta" href="#pricing">看托管套餐</a>
-  <a class="cta alt" href="#compare">先看全网比价</a>
+<nav><div class="wrap nav-in">
+  <div class="logo"><span class="dot">🌙</span>Mac<em>不打烊</em></div>
+  <div class="nav-links">
+    <a href="#compare">全网比价</a><a href="#how">怎么保障</a><a href="#pricing">套餐</a><a href="#faq">常见问题</a>
+  </div>
+  <a class="nav-cta" href="https://x.com/MacBuDaYang" target="_blank" rel="noopener">私信开通</a>
+</div></nav>
 
-  <h2 id="compare">全网比价（2026-10-20 实查）</h2>
-  <table>
+<header class="hero"><div class="wrap">
+  <span class="pill"><span class="live"></span>库存播报 · Agent.Space 首批 50 台 <b>仅剩 1 台</b>，售完涨至 $220/月</span>
+  <h1>给 Claude Code / Codex<br>一台 <span class="hl">不会睡、不会挂</span> 的海外 Mac</h1>
+  <p class="sub">你的 Agent 半夜断了，多半不是账号的问题，是机器睡了、网络断了、服务商缺货了。Mac不打烊 聚合多家海外 Mac mini 云租赁：比价选最优、自动备份、故障自动切换。你只对一家付款，中文客服，保证机器能用。</p>
+  <div class="cta-row">
+    <a class="btn btn-gold" href="https://x.com/MacBuDaYang" target="_blank" rel="noopener">抢 Beta 名额（剩 20 个）</a>
+    <a class="btn btn-ghost" href="#compare">先看全网比价</a>
+  </div>
+  <p class="hero-note">机器交付后才计费 · 交付时现场演示一次故障切换</p>
+  <div class="stats">
+    <div class="stat"><div class="n">6 家</div><div class="t">上游实时比价中</div></div>
+    <div class="stat"><div class="n">30 分钟</div><div class="t">Pro 故障自动切换目标</div></div>
+    <div class="stat"><div class="n">小时级</div><div class="t">Pro 环境自动备份</div></div>
+    <div class="stat"><div class="n">每日</div><div class="t">价格与库存巡检更新</div></div>
+  </div>
+</div></header>
+
+<section id="pain"><div class="wrap">
+  <div class="kicker">为什么总断</div>
+  <h2>自己租一台 Mac mini 的三个坑</h2>
+  <p class="sec-sub">直购不是不行，是这三件事没人替你兜底。</p>
+  <div class="pain">
+    <div class="p"><h3><span>坑 1</span>缺货与涨价</h3><p>热门服务商首批 50 台卖到只剩 1 台，售完新单直接涨 37%。等你想起续费加机，价格和库存都变了。</p><span class="fix">→ 我们多家比价调度，哪家有货走哪家</span></div>
+    <div class="p"><h3><span>坑 2</span>挂了没人管</h3><p>机器半夜失联，英文工单排队几小时，Agent 任务全停，环境搬家还要手动重配一整天。</p><span class="fix">→ 心跳监控 + 热备池，自动切换恢复</span></div>
+    <div class="p"><h3><span>坑 3</span>私营卖家不透明</h3><p>X 上私聊成交 2300 元起，配置不公开、售后全靠对方心情，跑路和涨价都没有约束。</p><span class="fix">→ 一家付款、明码标价、中文客服对结果负责</span></div>
+  </div>
+</div></section>
+
+<section id="compare"><div class="wrap">
+  <div class="kicker">全网比价</div>
+  <h2>先比价，再决定要不要托管</h2>
+  <p class="sec-sub">以下为 2026-10-20 实查数据，我们每日巡检更新。比价表对所有人免费开放，这是我们和单家服务商最大的区别。</p>
+  <div class="tbl-wrap"><table>
     <tr><th>服务商</th><th>地区</th><th>配置</th><th>月价</th><th>库存 / 备注</th></tr>
-    <tr><td>Agent.Space</td><td>美国 / 新加坡 / 日本</td><td>M4 16GB / 256GB</td><td>$160（年付 $120）</td><td>首批 50 台仅剩 1 台，售完涨至 $220</td></tr>
-    <tr><td>My Remote Mac</td><td>美国机房</td><td>M4 16GB / 256GB 起</td><td>$85 起</td><td>英文服务，无中文客服</td></tr>
-    <tr><td>Mac Mini Vault</td><td>美国机房</td><td>多配置</td><td>$79.99 起</td><td>老牌机房托管，机房 IP</td></tr>
-    <tr><td>Rent a Mac</td><td>美国机房</td><td>M4 16GB</td><td>约 $119</td><td>按天折算，DeskIn 远程</td></tr>
-    <tr><td>Lumio</td><td>日本住宅 ISP</td><td>M4 16GB / 256GB</td><td>$180 起</td><td>真家宽，TG 下单</td></tr>
-    <tr><td>私营卖家（X）</td><td>北美</td><td>未公开</td><td>约 2300 元起</td><td>私聊成交，价格不透明，无公开保障</td></tr>
-  </table>
-  <p class="note">比价只是第一步。直购的问题是：缺货、交付慢、挂了找英文工单、环境搬家全靠手动。我们卖的是下面这层保障。</p>
+    <tr><td>Agent.Space</td><td>美国 / 新加坡 / 日本</td><td>M4 16GB / 256GB</td><td class="price">$160（年付 $120）</td><td><span class="warn">首批 50 台仅剩 1 台</span>，售完涨至 $220</td></tr>
+    <tr><td>My Remote Mac</td><td>美国机房</td><td>M4 16GB / 256GB 起</td><td class="price">$85 起</td><td>英文服务，无中文客服</td></tr>
+    <tr><td>Mac Mini Vault</td><td>美国机房</td><td>多配置</td><td class="price">$79.99 起</td><td>老牌机房托管，机房 IP</td></tr>
+    <tr><td>Rent a Mac</td><td>美国机房</td><td>M4 16GB</td><td class="price">约 $119</td><td>按天折算，DeskIn 远程</td></tr>
+    <tr><td>Lumio</td><td>日本住宅 ISP</td><td>M4 16GB / 256GB</td><td class="price">$180 起</td><td>真家宽，Telegram 下单</td></tr>
+    <tr><td>私营卖家（X）</td><td>北美</td><td>未公开</td><td class="price">约 2300 元起</td><td><span class="warn">私聊成交，价格不透明，无公开保障</span></td></tr>
+    <tr><td><b>Mac不打烊 Pro</b></td><td>美国优先，多家调度</td><td>M4 独享 + 热备池</td><td class="price">¥1899</td><td><span class="ok">含备份、自动切换、中文客服</span></td></tr>
+  </table></div>
+  <p class="tbl-note">比价只是第一步。直购省下的钱，买的是缺货风险、英文工单和手动搬家。我们卖的是下面这层保障。</p>
+</div></section>
 
+<section id="how"><div class="wrap">
+  <div class="kicker">怎么保障</div>
   <h2>我们多做的三件事</h2>
-  <div class="cards">
-    <div class="card"><strong>自动备份</strong><p>代码、配置、Agent 会话目录定时加密同步，机器出问题不丢工作。</p></div>
-    <div class="card"><strong>故障切换</strong><p>心跳监控发现失联，自动在备用服务商拉起已同步的环境，Pro 版目标 30 分钟内恢复可用。</p></div>
-    <div class="card"><strong>现货调度</strong><p>多家上游实时比价和库存，哪家有货、哪家便宜走哪家，你不用管。</p></div>
+  <p class="sec-sub">单家服务商只卖你一台机器。我们卖的是一套让机器一直能用的系统。</p>
+  <div class="steps">
+    <div class="step"><div class="ico">🛟</div><h3>自动备份</h3><p>代码、配置、Agent 会话目录定时加密同步。机器出任何问题，你的工作成果先保住，不用从头配环境。</p></div>
+    <div class="step"><div class="ico">⚡</div><h3>故障切换</h3><p>心跳监控发现失联，自动在备用服务商拉起已同步的环境。Pro 版目标 30 分钟内恢复可用，不用等工单。</p></div>
+    <div class="step"><div class="ico">🧭</div><h3>现货调度</h3><p>多家上游实时比价和库存，哪家有货、哪家便宜走哪家。缺货和涨价是我们的调度问题，不是你的。</p></div>
   </div>
+</div></section>
 
-  <h2 id="pricing">托管套餐</h2>
-  <div class="cards">
-    <div class="card">
-      <div class="price">1299 元/月</div>
-      <strong>基础版</strong>
-      <ul><li>独享 Mac mini（美国优先）</li><li>预装 Claude Code / Codex</li><li>每日自动备份</li><li>故障人工切换，4 小时内</li></ul>
+<section id="pricing"><div class="wrap">
+  <div class="kicker">托管套餐</div>
+  <h2>明码标价，一家付款</h2>
+  <p class="sec-sub">全部套餐独享机器、预装 Claude Code / Codex、交付后计费。</p>
+  <div class="plans">
+    <div class="plan">
+      <div class="name">基础版</div>
+      <div class="amount">¥1299<small> /月</small></div>
+      <div class="desc">适合先跑起来看看的个人用户</div>
+      <ul><li>独享 Mac mini（美国优先）</li><li>预装 Claude Code / Codex</li><li>每日自动备份</li><li>故障人工切换，4 小时内</li><li>中文客服（工单）</li></ul>
+      <a class="pbtn" href="https://x.com/MacBuDaYang" target="_blank" rel="noopener">私信开通基础版</a>
     </div>
-    <div class="card hot">
-      <span class="tag">主推</span>
-      <div class="price">1899 元/月</div>
-      <strong>Pro 版</strong>
-      <ul><li>基础版全部</li><li>小时级备份</li><li>共享热备池，自动切换目标 30 分钟</li><li>优先现货调度，中文客服</li></ul>
+    <div class="plan hot">
+      <span class="badge">主推 · Beta 招募中</span>
+      <div class="name">Pro 版</div>
+      <div class="amount">¥1899<small> /月</small></div>
+      <div class="desc">适合 Agent 全天候跑活的重度用户</div>
+      <ul><li>基础版全部能力</li><li>小时级自动备份</li><li>共享热备池，自动切换目标 30 分钟</li><li>优先现货调度</li><li>中文客服优先响应</li></ul>
+      <a class="pbtn" href="https://x.com/MacBuDaYang" target="_blank" rel="noopener">私信抢 Pro Beta 名额</a>
     </div>
-    <div class="card">
-      <div class="price">1699 元/台/月</div>
-      <strong>团队版（3 台起）</strong>
-      <ul><li>Pro 版全部能力</li><li>统一账单和管理员</li><li>团队环境模板统一交付</li></ul>
+    <div class="plan">
+      <div class="name">团队版（3 台起）</div>
+      <div class="amount">¥1699<small> /台/月</small></div>
+      <div class="desc">适合小团队统一养环境</div>
+      <ul><li>Pro 版全部能力</li><li>统一账单和管理员</li><li>团队环境模板统一交付</li><li>成员机器统一备份策略</li></ul>
+      <a class="pbtn" href="https://x.com/MacBuDaYang" target="_blank" rel="noopener">私信咨询团队版</a>
     </div>
   </div>
-  <p class="note">说明：我们保证机器可用性和环境恢复；Claude / Codex 账号由你自有并登录，需符合 Anthropic、OpenAI 的使用条款，我们不卖账号、不承诺账号层面的任何结果。</p>
+  <p class="fineprint">口径说明：我们保证的是机器可用性和环境恢复。Claude / Codex 账号由你自有并登录，需符合 Anthropic、OpenAI 的使用条款；我们不卖账号，也不承诺账号层面的任何结果。</p>
+</div></section>
 
-  <h2>Beta 招募</h2>
-  <p>首批 20 个 Beta 名额：Pro 版 Beta 价开通，换真实使用反馈。机器交付后计费，备份和切换在交付时现场演示一遍给你看。</p>
-  <a class="cta" href="https://x.com/MaryBrown819007">X 私信预订 Beta 名额</a>
-  <p class="note">预订方式：点击上方按钮私信我们的 X 主号，回复「Beta」即可，每天确认一次名额。</p>
+<section id="faq"><div class="wrap">
+  <div class="kicker">常见问题</div>
+  <h2>开通前先说清</h2>
+  <p class="sec-sub"></p>
+  <div class="faq">
+    <details><summary>账号是谁的？你们会碰我的账号吗？</summary><p>账号永远是你自己的，用你自己的账号登录，我们只提供和维护机器与环境，不卖账号、不代注册、不碰你的账号凭据。</p></details>
+    <details><summary>机器挂了，我的代码和环境怎么办？</summary><p>备份按套餐频率自动加密同步（基础版每日、Pro 小时级）。故障时在备用服务商拉起已同步的环境恢复，Pro 目标 30 分钟内可用，交付时会现场演示一遍给你看。</p></details>
+    <details><summary>为什么比直购贵？差价买了什么？</summary><p>买的是三件事：多家比价与现货调度（不用自己盯库存和涨价）、自动备份与故障切换系统、中文客服对可用性负责。直购 $160 买的只是一台机器，以上都要你自己扛。</p></details>
+    <details><summary>怎么付款？能月付吗？</summary><p>目前私信 concierge 开通，支持月付，机器交付后开始计费。在线支付通道正在接入中，上线后可自助下单续费。</p></details>
+    <details><summary>多久能交付？</summary><p>走现货调度，多家上游哪家有货发哪家。紧缺时段以私信确认的交付时间为准，确认不了现货我们会直接告诉你，不收钱让你干等。</p></details>
+  </div>
+</div></section>
+
+<div class="wrap">
+  <div class="final">
+    <h2>首批 20 个 Beta 名额</h2>
+    <p>Pro 版 Beta 价开通，换真实使用反馈。名额每天确认一次，机器交付后计费，备份和切换现场演示。</p>
+    <a class="btn btn-gold" href="https://x.com/MacBuDaYang" target="_blank" rel="noopener">去 X 私信回复「Beta」</a>
+  </div>
 </div>
+
+<footer><div class="wrap">
+  Mac不打烊 · 海外 Mac mini 云租赁比价与托管<br>
+  价格数据更新于 2026-10-20，每日巡检更新 · <a href="https://x.com/MacBuDaYang" target="_blank" rel="noopener">@MacBuDaYang</a>
+</div></footer>
+
+<a class="sticky-cta" href="https://x.com/MacBuDaYang" target="_blank" rel="noopener">抢 Beta 名额 · 私信开通</a>
 </body>
 </html>
